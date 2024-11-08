@@ -2,16 +2,16 @@ package dev.kata.stringcalculator
 
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.doThrow
-import org.mockito.kotlin.mock
+import java.util.Date
 
 internal class StringCalculatorShould {
     @Test
-    fun `work`() {
-        val stringCalculator = StringCalculator()
+    fun `Given a inventory, it should return empty list`() {
+        val inventory = Inventory()
+        val date = Date()
 
-        val result = stringCalculator.execute()
+        val result = inventory.project(date)
 
-        assertThat(result).isEqualTo(0)
+        assertThat(result).isEmpty()
     }
 }
