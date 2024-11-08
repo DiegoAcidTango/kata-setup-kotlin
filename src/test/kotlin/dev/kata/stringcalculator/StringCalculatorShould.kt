@@ -14,4 +14,16 @@ internal class StringCalculatorShould {
 
         assertThat(result).isEmpty()
     }
+
+    @Test
+    fun `Add item to inventory`() {
+        val inventory = Inventory()
+        val date = Date()
+        val apple = "apple"
+
+        inventory.add(date, apple)
+        val result = inventory.project(date)
+
+        assertThat(result).isEqualTo(listOf("apple"))
+    }
 }
