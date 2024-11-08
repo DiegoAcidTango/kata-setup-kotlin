@@ -6,7 +6,9 @@ class Inventory {
     private val products = mutableMapOf<Date, MutableList<String>>()
 
     fun project(date: Date) : List<String> {
-        return products[date] ?: emptyList()
+        return products.toSortedMap().filterKeys {
+            it <= date
+        }.values.flatten()
     }
 
     fun add(date: Date, item: String) {
