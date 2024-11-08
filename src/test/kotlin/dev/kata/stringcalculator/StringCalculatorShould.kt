@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.Date
 
 internal class StringCalculatorShould {
@@ -72,5 +71,28 @@ internal class StringCalculatorShould {
 
         assertThat(result1).isEqualTo(listOf("apple"))
         assertThat(result2).isEqualTo(listOf("apple", "banana"))
+    }
+
+    @Test
+    fun `project inventory based on date`() {
+        val inventory = Inventory()
+        val today = LocalDate.of(2021, 1, 1).atStartOfDay(ZoneId.systemDefault()).toInstant().let { Date.from(it) }
+        val tomorrow = LocalDate.of(2021, 1, 2).atStartOfDay(ZoneId.systemDefault()).toInstant().let { Date.from(it) }
+        val yesterday = LocalDate.of(2019, 1, 2).atStartOfDay(ZoneId.systemDefault()).toInstant().let { Date.from(it) }
+        val orange = "orange"
+        val banana = "banana"
+        val kiwi = "kiwi"
+
+        inventory.add(today, banana)
+        inventory.add(today, kiwi)
+        inventory.add(tomorrow, orange)
+
+        val result1 = inventory.project(today)
+        val result2 = inventory.project(tomorrow)
+        val result3 = inventory.project(yesterday)
+
+        assertThat(result3).isEqualTo(emptyList<String>())
+        assertThat(result1).isEqualTo(listOf("banana", "kiwi"))
+        assertThat(result2).isEqualTo(listOf("banana", "kiwi", "orange"))
     }
 }
